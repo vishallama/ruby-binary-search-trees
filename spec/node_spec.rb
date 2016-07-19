@@ -5,17 +5,17 @@ describe Node do
 
   describe '#initialize' do
     context 'When only one argument is passed' do
-      it 'the argument is set to data' do
-        expect(Node.new(1).data).to eq(1)
+      it 'the argument is set to key' do
+        expect(Node.new(1, 1).key).to eq(1)
       end
     end
 
     context 'When two arguments are passed' do
-       let(:node2) { Node.new(2) }
-       let(:node1) { Node.new(1, node2) }
+       let(:node2) { Node.new(2, 2) }
+       let(:node1) { Node.new(1, 1, node2) }
 
-       it 'the first argument is set to data' do
-         expect(node1.data).to eq(1)
+       it 'the first argument is set to key' do
+         expect(node1.key).to eq(1)
        end
 
        it 'the second argument is set to left' do
@@ -26,13 +26,13 @@ describe Node do
         end
     end
 
-     context 'When three arguments are passed' do
-       let(:node2) { Node.new(2) }
-       let(:node3) { Node.new(3) }
-       let(:node1) { Node.new(1, node2, node3) }
+     context 'When four arguments are passed' do
+       let(:node2) { Node.new(2, 2) }
+       let(:node3) { Node.new(3, 3) }
+       let(:node1) { Node.new(1, 1, node2, node3) }
 
-       it 'the first argument is set to data' do
-         expect(node1.data).to eq(1)
+       it 'the first argument is set to key' do
+         expect(node1.key).to eq(1)
        end
 
        it 'the second argument is set to left' do
@@ -46,8 +46,8 @@ describe Node do
   end
 
   describe '<=>' do
-    let(:node2) { Node.new(2) }
-    let(:node3) { Node.new(3) }
+    let(:node2) { Node.new(2, 2) }
+    let(:node3) { Node.new(3, 3) }
 
     context 'when < is used to compare two nodes' do
       it 'returns true if left.data is less than right.data' do
@@ -61,8 +61,8 @@ describe Node do
   end
 
   describe '#insert' do
-    let(:node2) { Node.new(2) }
-    let(:node3) { Node.new(3) }
+    let(:node2) { Node.new(2, 2) }
+    let(:node3) { Node.new(3, 3) }
 
     context 'When nil is inserted' do
       it 'raises RuntimeError' do
@@ -86,11 +86,21 @@ describe Node do
       end
     end
 
-    context 'When a new node with the same data is inserted' do
+    context 'When a new node with the same key is inserted' do
       it 'self is returned' do
         expect(node2.insert(node2)).to eq(node2)
       end
     end
   end
+
+  describe '#traverse_inorder' do
+    context 'With a node with just a left child and a right child' do
+      let(:node1) { Node.new(1) }
+      let(:node2) { Node.new(2) }
+      let(:node3) { Node.new(3) }
+
+    end
+  end
+
 end
 
