@@ -65,23 +65,23 @@ describe Node do
     let(:node3) { Node.new(3, 3) }
 
     context 'When nil is inserted' do
-      it 'raises RuntimeError' do
-        expect { node2.insert(nil) }.to raise_error RuntimeError
+      it 'raises ArgumentError' do
+        expect { node2.insert(nil) }.to raise_error ArgumentError
       end
     end
 
     context 'When an integer is inserted' do
-      it 'raises RuntimeError' do
-        expect { node2.insert(1) }.to raise_error RuntimeError
+      it 'raises ArgumentError' do
+        expect { node2.insert(1) }.to raise_error ArgumentError
       end
     end
 
     context 'When a new node is inserted to a node with no children' do
-      it 'it is inserted to the right if the data is greater' do
+      it 'it is inserted to the right if the key is greater' do
         expect(node2.insert(node3).right).to eq(node3)
       end
 
-      it 'it is inserted to the left if the data is lesser' do
+      it 'it is inserted to the left if the key is lesser' do
         expect(node3.insert(node2).left).to eq(node2)
       end
     end
@@ -91,13 +91,31 @@ describe Node do
         expect(node2.insert(node2)).to eq(node2)
       end
     end
-  end
 
-  describe '#traverse_inorder' do
-    context 'With a node with just a left child and a right child' do
-      let(:node1) { Node.new(1) }
-      let(:node2) { Node.new(2) }
-      let(:node3) { Node.new(3) }
+    context 'With a node consisting of just two children' do
+      let(:node1) { Node.new(1, 1) }
+      let(:node2) { Node.new(2, 2) }
+      let(:node3) { Node.new(3, 3) }
+
+      it 'sets the left of the root correctly' do
+        node2.insert(node1).insert(node3)
+        expect(node2.left).to eq(node1)
+      end
+
+      it 'sets the right of the root correcly' do
+        node2.insert(node1).insert(node3)
+        expect(node2.right).to eq(node3)
+      end
+
+      it 'the left child of the root is a leaf' do
+        node2.insert(node1).insert(node3)
+        expect(node2.left.leaf?).to be true
+      end
+
+      it 'the right child of the root is set correctly' do
+        node2.insert(node1).insert(node3)
+        expect(node2.right.leaf?).to be true
+      end
 
     end
   end
